@@ -1,0 +1,251 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}    % change to your encoding (e.g. utf8)
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{dsfont}
+\usepackage{amsmath}
+
+
+\usepackage{hyperref}
+
+
+\title{Syntax und Semantik -- ein Tutorial}
+\author{Jan S\"urmeli\\\url{suermeli@googlemail.com}}
+
+
+\begin{document}
+ 
+ \maketitle
+ 
+ 
+ \section{Syntax vs. Semantik: Ideen haben und hinschreiben}
+
+ In diesem Abschnitt untersuchen wir den Unterschied zwischen Syntax und 
+Semantik. Kurz gesagt ist Syntax die \emph{Art}, Dinge hinzuschreiben, und 
+Semantik die \emph{Bedeutung} des Geschriebenen. Den Unterschied untersuchen 
+wir zunächst anhand einiger konkreter Beispiele. Anschließend formalisieren wir 
+die Begriffe der Syntax und der Semantik auf eine recht abstrakte Weise. 
+
+\paragraph{Erstes Beispiel: Programmiersprachen.} Bevor wir ein Programm 
+schreiben, müssen wir uns für eine \emph{Programmiersprache} 
+entscheiden. Damit wir ein Programm in einer Programmiersprache $L$ 
+hinschreiben können, müssen wir die \emph{Syntax} von $L$ kennen: Ein Compiler 
+(oder Interpreter) für die Sprache $L$ akzeptiert nur solche Quelltexte, die 
+der Syntax von $L$ folgen. Die Syntax von Programmiersprachen umfasst unter 
+anderem die Schlüsselwörter und die Namen eingebauter Datentypen. Ein Programm 
+in $L$ ist jedoch (meist) mehr als eine bloße Aneinandereihung von 
+Schlüsselwörtern. Tatsächlich ist festgelegt, welche \emph{Zeichenketten} in 
+welcher Reihenfolge und Kombination stehen dürfen. Die 
+Syntax einer Programmiersprache $L$ beantwortet also die Frage, \emph{ob ein 
+gegebener Quelltext $Q$ ein Programm in $L$ ist}. Haben wir ein Programm $Q$ in 
+$L$ geschrieben, möchten wir dieses meist ausführen. Dazu geben wir $Q$ in 
+einen Compiler oder Interpreter, um $Q$ \emph{auszuführen}. Die Semantik von $L$ 
+legt fest, was passiert, wenn wir $Q$ ausführen. Dazu legt die Semantik unter 
+anderem fest, welche Schlüsselwörter welche Bedeutung haben. Genauer legt sie 
+genau fest, \emph{welche Bedeutung $Q$ bezüglich der Programmiersprache 
+$L$ hat}. Ein Quelltext $Q$ kann dabei ein Programm gleich zweier 
+Programmiersprachen $L_1$ und $L_2$ sein, und in $L_1$ etwas völlig anderes 
+bedeuten als in $L_2$. Ein gutes Beispiel dafür ist das 
+Gleichheitszeichen, das in manchen Programmiersprachen \emph{Gleichheit} und in 
+anderen \emph{Zuweisung} bedeutet. Dieser Punkt ist äußerst wichtig: Selbst 
+wenn wir die Syntax einer Programmiersprache kennen, kennen wir nicht 
+automatisch auch ihre Semantik. Auch wenn wir Syntax und Semantik einer 
+Programmiersprache häufig gleichzeitig lernen, sind es tatsächlich zwei 
+unterschiedliche Gedanken. 
+
+\paragraph{Zweites Beispiel: Mathematische Funktionen}
+In der Schule haben wir gelernt, dass wir eine Funktion $f$ hinschreiben 
+können, in dem wir erst 
+\begin{equation}
+ f : \mathds{R}\rightarrow\mathds{R}
+ \label{eq:ex-math-funcs-f-1}
+\end{equation}
+und dann 
+\begin{equation}
+ f(x) = x^2 + 6x + 2
+ \label{eq:ex-math-funcs-f-2}
+\end{equation}
+schreiben. Wir haben auch gelernt, dass wir damit eine Funktion $f$ 
+hinschreiben, die eine Parabel im zweidimensionalen Koordinatensystem 
+beschreibt, oder etwas abstrakter: Eine Menge $P_f$ von Punkten im 
+zweidimensionalen Koordinatensystem, wobei für jede reelle Zahl $x$ genau ein 
+Punkt in $P_f$ existiert, dessen $X$-Koordinate $x$ ist. Außerdem ist 
+die $Y$-Koordinate dieses einen Punktes genau $f(x)$, also das Ergebnis davon, 
+$x$ in $x^2+6x+2$ einzusetzen. Angenommen, wir schreiben noch folgendes dazu: 
+\begin{equation}
+ g : \mathds{R}\rightarrow\mathds{R}
+ \label{eq:ex-math-funcs-g-1}
+\end{equation}
+\begin{equation}
+ g(x) = (x + 3)^2 - 7
+ \label{eq:ex-math-funcs-g-2}
+\end{equation}
+Damit haben wir eine Funktion $g$ beschrieben -- eine Menge $P_g$ von Punkten 
+im zweidimensionalen Koordinatensystem. Gucken 
+wir ein bisschen länger auf die $P_f$ und $P_g$ stellen wir fest, dass sie 
+\emph{gleich} sind: Für jede reelle Zahl $x$ hat der Punkt in $P_f$ mit 
+$X$-Koordinate $x$ die gleiche $Y$-Koordinate wie der Punkt in $P_g$ mit 
+$X$-Koordinate $x$. Was ist hier passiert? Wir haben die Punktmenge $P_f$ 
+einmal durch die Zeichenketten \eqref{eq:ex-math-funcs-f-1} und 
+\eqref{eq:ex-math-funcs-f-2} beschrieben. Anschließend haben wir dieselbe Menge 
+von Punkten durch die Zeichenketten \eqref{eq:ex-math-funcs-g-1} und 
+\eqref{eq:ex-math-funcs-g-2} beschrieben. Ähnlich zum vorherigen Beispiel 
+haben wir eine Syntax gelernt, um Funktionen zu beschreiben, und gelernt, was 
+eigentlich die Bedeutung solch einer Beschreibung ist. Diesmal haben wir den 
+Fall kennen gelernt, dass zwei unterschiedliche Beschreibungen dieselbe 
+Bedeutung haben können. 
+
+\paragraph{Eine abstrakte Definition für Syntax und Semantik}
+Eine \emph{Syntax} legt stets ein Universum erlaubter \emph{Zeichenketten} fest 
+-- also nichts anderes als eine formale Sprache über einem Alphabet. 
+Eine \emph{Semantik} weist jeder syntaktisch erlaubten Zeichenkette eine 
+\emph{Bedeutung} zu. Eine Zeichenkette kann zu mehr als nur einer Syntax 
+passen. Zwei Zeichenketten können bezüglich 
+derselben Semantik dieselbe Bedeutung haben.
+
+\section{Signaturen und Strukturen}
+
+In diesem Abschnitt definieren wir konkret die Begriffe der Syntax und Semantik 
+in der Welt der Algebra: Wir legen Syntax durch Signaturen, Semantik 
+durch Strukturen fest. Dazu wenden wir uns zunächst der Semantik -- also den 
+Strukturen -- zu. Anschließend betrachten wir die Syntax -- also die 
+Signaturen. 
+
+\subsection{Strukturen}
+
+Wenn wir an die Schulmathematik denken, dreht sie sich doch größtenteils um 
+Funktionen auf reellen Zahlen. Manchmal betrachten wir bestimmte Teilmengen der 
+reellen Zahlen, wie die positiven reellen Zahlen oder die rationalen Zahlen. 
+Manche dieser Funktion berechnen zu einer reellen Zahl eine andere reelle Zahl, 
+wie zum Beispiel das Quadrieren. Andere Funktionen berechnen 
+zu zwei reellen Zahlen eine reelle Zahl wie zum Beispiel die Addition. 
+
+Wir haben jedoch auch andere Funktionen kennen gelernt, zum Beispiel die 
+Ableitung einer Funktion: Die Ableitung einer Funktion $f$ über den reellen 
+Zahlen ist die Funktion $f^\prime$, die jedem $x\in\mathds{R}$ die Steigung der 
+Funktion $f$ im Punkt $x$ zuordnet. 
+
+Was macht eine Funktion aus? Diese Frage wird in unterschiedlichen Werken 
+unterschiedlich beantwortet. In diesem Tutorial wollen wir uns auf 
+folgendes einigen: 
+\begin{enumerate}
+ \item Eine Funktion hat eine Stelligkeit $n$, wobei $n\in\{0,1,2,\ldots\}$.
+ \item Eine $n$-stellige Funktion hat einen Definitionsbereich 
+$A_1\times\ldots\times A_n$, wobei $A_1\ldots A_n$ Mengen sind. 
+ \item Eine Funktion hat einen Wertebereich $A$. 
+ \item Eine $0$-stellige Funktion $f$ heißt \emph{Konstante} und beschreibt 
+einen Wert aus $A$. 
+ \item Eine $n$-stellige Funktion $f$ mit $n \geq 1$ weist jedem Element aus 
+dem Definitionsbereich $A_1\times\ldots\times A_n$ ein Element aus dem 
+Wertebereich $A$ zu.
+ \end{enumerate}
+
+Jetzt sind wir bereit den Begriff der \emph{Struktur} einzuführen. Eine 
+Struktur $S$ besteht aus endlich vielen Mengen $B_1\ldots B_\ell$ sowie 
+endlichen vielen Funktionen $f_1\ldots f_k$, so dass für jedes $i$ mit $1\leq 
+i\leq k$ gilt: $f_i$ ist eine $n$-stellige Funktion mit Definitionsbereich 
+$A_1\times\ldots\times A_n$ und Wertebereich $A$, so dass
+\begin{enumerate}
+ \item $\{A_1,\ldots,A_n\}\subseteq\{B_1\ldots B_\ell\}$ und 
+ \item $A\in\{B_1,\ldots,B_n\}$.  
+\end{enumerate}
+
+Wir benutzen für Strukturen gerne eine Tupel-Schreibweise: Sind 
+$B_1,\ldots,B_n$ und $f_1,\ldots,f_k$ bekannt, schreiben wir $S$ auch als 
+$(B_1,\ldots,B_n;f_1,\ldots,f_k)$. 
+
+\subsection{Signaturen}
+
+Als ein einführendes Beispiel betrachten wir drei Strukturen: 
+\begin{enumerate}
+ \item $S_1 = (\mathds{N};\mathrm{suc},0)$, wobei $\mathds{N}$ die Menge der 
+natürlichen Zahlen und $\mathrm{suc}$ die einstellige Funktion ist, die jeder 
+natürlichen Zahl ihren Nachfolger zuordnet. 
+ \item $S_2 = (\mathds{R};\mathrm{abs}_{\mathds{R}},17)$, wobei $\mathds{R}$ 
+die Menge der reellen Zahlen und $\mathrm{abs}_{\mathds{R}}$ die einstellige 
+Funktion ist, die jeder reellen Zahl ihren Betrag zuordnet. 
+  \item $S_3 = (\mathds{F}; \mathrm{diff}, \mathrm{quadriere})$, wobei 
+$\mathds{F}$ die Menge der $1$-stelligen Polynom-Funktionen\footnote{Eine 
+$1$-stellige Polynom-Funktion ist eine Funktion, die durch ein Polynom 
+beschrieben wird.} über $\mathds{R}$, $\mathds{R}$ 
+die Menge der reellen Zahlen, $\mathrm{diff}$ die Funktion ist, die jeder 
+Funktion aus $\mathds{F}$ seine Ableitung zuordnet, und $\mathrm{quadriere}$ 
+jeder Zahl ihr Quadrat zuordnet. 
+\end{enumerate}
+Wir beobachten, dass die drei Strukturen $S_1$, $S_2$ und $S_3$ folgende 
+Gemeinsamkeit aufweisen: Jede der drei Strukturen besteht aus einer Menge 
+zusammen mit einer einstelligen Funktion und einer Konstante. Formal sagen wir, 
+dass $S_1$, $S_2$ und $S_3$ dieselbe \emph{Signatur} haben. Bevor wir das 
+konkretisieren, 
+betrachten wir 
+ein etwas komplizierteres Beispiel: 
+\begin{enumerate}
+ \item $S_4 = (\mathds{Q},\mathds{Z};\mathrm{rundeAuf})$, wobei $\mathds{Q}$ 
+die Menge der rationalen Zahlen, $\mathds{Z}$ die Menge der ganzen Zahlen und 
+$\mathrm{rundeAuf}$ die Funktion ist, die jede rationale Zahl $x$ auf die 
+kleinste ganze Zahl $y$ aufrundet, die nicht echt kleiner als $x$ ist. 
+ \item $S_5 = (\mathds{Z},\mathds{N};\mathrm{abs}_{\mathds{Z}})$, wobei 
+$\mathds{Z}$ die Menge der ganzen Zahlen, $\mathds{N}$ die Menge der 
+natürlichen Zahlen $0,1,2,\ldots$ und $\mathrm{abs}_{\mathds{Z}}$ die Funktion 
+ist, die jeder ganzen Zahl ihren Betrag zuordnet. 
+\end{enumerate}
+Hier beobachten wir, dass $S_4$ und $S_5$ jeweils aus zwei Mengen bestehen und 
+einer einstelligen Funktion bestehen, wobei der Definitionsbereich die erste 
+und der Wertebereich die zweite Menge ist. Auch hier sagen wir, dass $S_4$ und 
+$S_5$ dieselbe \emph{Signatur} haben. 
+
+Was ist eine Signatur? Wie bei den Funktionen finden wir hier unterschiedliche 
+Definitionen in unterschiedlichen Büchern. Wir einigen uns auf die folgenden 
+Axiome: 
+\begin{enumerate}
+ \item Eine Signatur $\Sigma$ besteht aus endlich vielen \emph{Symbolen}. 
+ \item Jedes Symbol aus $\Sigma$ ist entweder ein \emph{Sortensymbol} oder ein 
+\emph{Funktionssymbol}.
+ \item Jedes Funktionssymbol $f$ aus $\Sigma$ hat eine Stelligkeit 
+$\mathrm{ar}_\Sigma(f)\in\{0,1,2,\ldots\}$. 
+ \item Jedes Funktionssymbol aus $\Sigma$ hat einen \emph{Typ} 
+$\mathrm{typ}_\Sigma(f) = s_1\ldots s_n s$, wobei 
+$n = \mathrm{ar}_\Sigma(f)$ und $s_1,\ldots,s_n,s$ jeweils Sortensymbole sind. 
+\end{enumerate}
+
+Wie Strukturen schreiben wir Signaturen gerne als Tupel, wobei wir zunächst 
+alle Sortensymbole auflisten und nach einem Semikolon alle Funktionssymbole mit 
+ihrem Typ auflisten. Am Typ erkennen wir auch leicht die Stelligkeit. Wir 
+stellen im Folgenden den Zusammenhang zwischen Signaturen und Strukturen dar. 
+
+Wie schon angedeutet, hat eine Struktur eine Signatur. Tatsächlich hat eine 
+Struktur sogar unendlich viele Signaturen: Sei $\Sigma = 
+(s_1,\ldots,s_k;f_1:\mathrm{typ}_\Sigma(f_1),\ldots,
+f_\ell:\mathrm{typ}_\Sigma(f_\ell))$ eine Signatur
+und $S = 
+(B_1,\ldots,B_m;g_1,\ldots,g_n)$ eine Struktur. Wenn $k = m$ und $\ell = n$, 
+dann bezeichne $S(s_i)$ die Menge $A_i$ für alle $1\leq i\leq m$. Dann ist $S$ 
+eine \emph{$\Sigma$-Struktur}, falls: 
+\begin{enumerate}
+ \item $k = m$, 
+ \item $\ell = n$,
+ \item Für alle $1\leq i\leq n$ gilt: Sei $r = \mathrm{ar}_\Sigma(f_i)$ und  
+$\mathrm{typ}_\Sigma(f_i) = t_1\ldots t_r t$. Dann ist $g$ $r$-stellig, 
+$S(t_1)\times\ldots\times S(t_r)$ der Definitionsbereich von $g_i$ und $S(t)$ 
+der Wertebereich von $g_i$. 
+\end{enumerate}
+Die Strukturen $S_1$, $S_2$ und $S_3$ sind jeweils $\Sigma_A$-Strukturen für 
+$\Sigma_A =  (A;f:AA,c:A)$. Die Strukturen $S_4$ und $S_5$ sind jeweils 
+$\Sigma_B$-Strukturen für $\Sigma_B = (A,B;f:AB)$. 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+\end{document}
