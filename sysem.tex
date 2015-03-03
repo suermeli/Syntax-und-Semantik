@@ -192,7 +192,7 @@ $\mathds{Z}$ die Menge der ganzen Zahlen, $\mathds{N}$ die Menge der
 natürlichen Zahlen $0,1,2,\ldots$ und $\mathrm{abs}_{\mathds{Z}}$ die Funktion 
 ist, die jeder ganzen Zahl ihren Betrag zuordnet. 
 \end{enumerate}
-Hier beobachten wir, dass $S_4$ und $S_5$ jeweils aus zwei Mengen bestehen und 
+Hier beobachten wir, dass $S_4$ und $S_5$ jeweils aus zwei Mengen und 
 einer einstelligen Funktion bestehen, wobei der Definitionsbereich die erste 
 und der Wertebereich die zweite Menge ist. Auch hier sagen wir, dass $S_4$ und 
 $S_5$ dieselbe \emph{Signatur} haben. 
@@ -204,11 +204,14 @@ Axiome:
  \item Eine Signatur $\Sigma$ besteht aus endlich vielen \emph{Symbolen}. 
  \item Jedes Symbol aus $\Sigma$ ist entweder ein \emph{Sortensymbol} oder ein 
 \emph{Funktionssymbol}.
- \item Jedes Funktionssymbol $f$ aus $\Sigma$ hat eine Stelligkeit 
-$\mathrm{ar}_\Sigma(f)\in\{0,1,2,\ldots\}$. 
- \item Jedes Funktionssymbol aus $\Sigma$ hat einen \emph{Typ} 
-$\mathrm{typ}_\Sigma(f) = s_1\ldots s_n s$, wobei 
-$n = \mathrm{ar}_\Sigma(f)$ und $s_1,\ldots,s_n,s$ jeweils Sortensymbole sind. 
+ \item Jedes Funktionssymbol $\varphi$ aus $\Sigma$ hat eine Stelligkeit 
+$\mathrm{ar}_\Sigma(\varphi)\in\{0,1,2,\ldots\}$. 
+ \item Jedes Funktionssymbol $\varphi$ aus $\Sigma$ hat einen \emph{Typ} 
+$\mathrm{typ}_\Sigma(\varphi) = \beta_1\ldots \beta_n \beta$, wobei 
+$n = \mathrm{ar}_\Sigma(\varphi)$ und $\beta_1,\ldots,\beta_n,\beta$ jeweils 
+Sortensymbole sind. 
+\item Wir nennen ein Funktionssymbol mit Stelligkeit $0$ auch 
+\emph{Konstantensymbol}. 
 \end{enumerate}
 
 Wie Strukturen schreiben wir Signaturen gerne als Tupel, wobei wir zunächst 
@@ -217,24 +220,58 @@ ihrem Typ auflisten. Am Typ erkennen wir auch leicht die Stelligkeit. Wir
 stellen im Folgenden den Zusammenhang zwischen Signaturen und Strukturen dar. 
 
 Wie schon angedeutet, hat eine Struktur eine Signatur. Tatsächlich hat eine 
-Struktur sogar unendlich viele Signaturen: Sei $\Sigma = 
-(s_1,\ldots,s_k;f_1:\mathrm{typ}_\Sigma(f_1),\ldots,
-f_\ell:\mathrm{typ}_\Sigma(f_\ell))$ eine Signatur
-und $S = 
-(B_1,\ldots,B_m;g_1,\ldots,g_n)$ eine Struktur. Wenn $k = m$ und $\ell = n$, 
-dann bezeichne $S(s_i)$ die Menge $A_i$ für alle $1\leq i\leq m$. Dann ist $S$ 
-eine \emph{$\Sigma$-Struktur}, falls: 
+Struktur sogar unendlich viele Signaturen. Der Zusammenhang zwischen Signatur 
+und Struktur wird dabei durch den Begriff der \emph{Interpretation} geschaffen: 
+Interpretieren wir jedes Symbol in einer Signatur, entsteht dadurch, wenn wir 
+uns clever anstellen, eine Struktur. Heißt die Signatur $\Sigma$ und die 
+entstehende Struktur $S$, werden wir $S$ als eine \emph{$\Sigma$-Struktur} 
+bezeichnen. 
+
+Wie interpretieren wir Symbole? Kurz gesagt: Ein Sortensymbol interpretieren 
+wir durch eine Menge, ein Funktionssymbol durch eine Funktion. Bei einem 
+Funktionssymbol $\varphi$ beachten wir dabei insbesondere die Stelligkeit 
+$\mathrm{ar}_\Sigma(\varphi)$ sowie den Typ $\mathrm{typ}_\Sigma(\varphi)$: Wir 
+interpretieren $\varphi$ stets durch eine Funktion mit Stelligkeit 
+$\mathrm{ar}_\Sigma(\varphi)$ und wählen Definitions- und Wertebereich, indem 
+wir erst jedes Sortensymbol in $\mathrm{typ}_\Sigma(\varphi)$ interpretieren. 
+
+Jetzt gehen wir das ganze noch etwas formaler an. Sei $\Sigma$ eine Signatur 
+mit Sortensymbolen $\alpha_1,\ldots,\alpha_n$ und Funktionssymbolen 
+$\varphi_1,\ldots,\varphi_n$. Sei $I$ eine einstellige Funktion mit 
+Definitionsbereich $\{\alpha_1,\ldots,\alpha_k\}$, die jedem $\alpha_i$ ($1\leq 
+i\leq k$) eine Menge $\alpha_i^I$ zuordnet. Dann ist $I$ eine 
+\emph{Sorten-Interpretation} von $\Sigma$. Sei $\varphi$ ein Funktionssymbol 
+von $\Sigma$ mit $\mathrm{typ}_\Sigma(\varphi) = \beta_1\ldots \beta_n \beta$, 
+$I$ eine Sorten-Interpretation von $\Sigma$ und $f$ eine Funktion, so dass jede 
+der folgenden Bedingungen erfüllt ist:  
 \begin{enumerate}
- \item $k = m$, 
- \item $\ell = n$,
- \item Für alle $1\leq i\leq n$ gilt: Sei $r = \mathrm{ar}_\Sigma(f_i)$ und  
-$\mathrm{typ}_\Sigma(f_i) = t_1\ldots t_r t$. Dann ist $g$ $r$-stellig, 
-$S(t_1)\times\ldots\times S(t_r)$ der Definitionsbereich von $g_i$ und $S(t)$ 
-der Wertebereich von $g_i$. 
+\item $f$ hat die Stelligkeit $n$. 
+ \item Falls $n \geq 1$ gilt, ist $\beta_1^I\times \ldots \times 
+\beta_n^I$ der Definitionsbereich von $f$.
+\item $\beta^I$ ist der Wertebereich von $f$. 
 \end{enumerate}
-Die Strukturen $S_1$, $S_2$ und $S_3$ sind jeweils $\Sigma_A$-Strukturen für 
-$\Sigma_A =  (A;f:AA,c:A)$. Die Strukturen $S_4$ und $S_5$ sind jeweils 
-$\Sigma_B$-Strukturen für $\Sigma_B = (A,B;f:AB)$. 
+Dann ist $f$ eine \emph{$I$-Interpretation} von $\varphi$. Wir beobachten: Ist 
+$\varphi$ ein Konstantensymbol, ist $f$ eine Konstante. 
+
+Sei jetzt $I$ eine Sorten-Interpretation von $\Sigma$. Sei 
+$S$ eine Struktur mit $S = 
+(A_1,\ldots,A_k;f_1,\ldots,f_\ell)$, so dass 
+\begin{enumerate}
+ \item für alle $1\leq i\leq k$ gilt: $\alpha_i^I = A_i$, und 
+ \item für alle $1\leq j\leq \ell$ die Funktion $f_j$ eine 
+$I$-Interpretation von $\varphi_j$ ist. 
+\end{enumerate}
+Dann 
+bezeichnen wir $S$ als \emph{$\Sigma$-Struktur}. Wir schreiben dann auch 
+$\alpha_i^S$ für $A_i$ und $\varphi_j^S$ für $f_j$ für alle $1\leq i\leq k$ und 
+$1\leq j\leq \ell$.
+
+Die Strukturen 
+$S_1$, $S_2$ und $S_3$ sind jeweils $\Sigma_1$-Strukturen für $\Sigma_1 =  
+(\alpha;\varphi:\alpha\alpha,\gamma:\alpha)$. Die Strukturen $S_4$ und $S_5$ 
+sind jeweils $\Sigma_2$-Strukturen für $\Sigma_2 = 
+(\alpha,\beta;\varphi:\alpha\beta)$. 
+
 
 
 
